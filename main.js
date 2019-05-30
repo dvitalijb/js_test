@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 });
 
-class ArticleList {
+class ArticleList{
     constructor(articleContainer) {
         this.articleContainer = articleContainer;
         this.articlels = data;
@@ -44,7 +44,7 @@ class ArticleList {
         if(query){
 
           //matches(query)
-            console.log(this.articlels)
+            console.log(this.articlels.matches(query))
 
         }
         while (this.articleContainer.hasChildNodes()) {
@@ -56,6 +56,7 @@ class ArticleList {
             const authorArticle = document.createElement('div');
             const textArticle = document.createElement('div');
             const buttonRemoveArticle = document.createElement('span');
+
             titleArticle.textContent = article.title;
             authorArticle.textContent = article.author;
             textArticle.innerHTML = article.text;
@@ -73,8 +74,9 @@ class ArticleList {
     }
 }
 
-class Article {
+class Article extends ArticleList {
     constructor(title, author, text) {
+        super();
         this.title = title;
         this.author = author;
         this.text = text;
@@ -89,10 +91,10 @@ class Article {
     matches(query) {
 
 
-
-        const authorMatch = this.author.match(/`{query}`/);
-        const textMatch = this.text.match(/`{query}`/);
-        const titleMatch = this.title.match(/`{query}`/);
+console.log('ok')
+        // const authorMatch = this.author.match(/`{query}`/);
+        // const textMatch = this.text.match(/`{query}`/);
+        // const titleMatch = this.title.match(/`{query}`/);
 
 
 
