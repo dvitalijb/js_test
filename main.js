@@ -43,8 +43,32 @@ class ArticleList{
     render(query) {
         if(query){
 
-          //matches(query)
-            console.log(this.articlels.matches(query))
+            this.articlels.forEach((article, index) => {
+                const articleWrapper = document.createElement('div');
+                const titleArticle = document.createElement('div');
+                const authorArticle = document.createElement('div');
+                const textArticle = document.createElement('div');
+                const buttonRemoveArticle = document.createElement('span');
+
+
+                console.log(article.matches(query));
+
+
+                titleArticle.textContent = article.title;
+                authorArticle.textContent = article.author;
+                textArticle.innerHTML = article.text;
+                buttonRemoveArticle.textContent = `x`;
+                buttonRemoveArticle.addEventListener('click', () => {
+                    this.removeArticle(index);
+                })
+
+                articleWrapper.append(buttonRemoveArticle);
+                articleWrapper.append(titleArticle);
+                articleWrapper.append(authorArticle);
+                articleWrapper.append(textArticle);
+                this.articleContainer.appendChild(articleWrapper)
+            })
+            // console.log(this.articlels.matches(query))
 
         }
         while (this.articleContainer.hasChildNodes()) {
@@ -74,9 +98,9 @@ class ArticleList{
     }
 }
 
-class Article extends ArticleList {
+class Article  {
     constructor(title, author, text) {
-        super();
+
         this.title = title;
         this.author = author;
         this.text = text;
@@ -91,10 +115,8 @@ class Article extends ArticleList {
     matches(query) {
 
 
-console.log('ok')
-        // const authorMatch = this.author.match(/`{query}`/);
-        // const textMatch = this.text.match(/`{query}`/);
-        // const titleMatch = this.title.match(/`{query}`/);
+      console.log('matches')
+        return true;
 
 
 
