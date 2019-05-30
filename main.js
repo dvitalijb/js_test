@@ -3,6 +3,7 @@
 // import Article from './article.js';
 
 const articleContainer = document.getElementById('article-list');
+const input = document.getElementById('input');
 let data;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,10 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
     xhr.addEventListener('load', function () {
         data = JSON.parse(xhr.response);
         console.log(data)
+
         const article = new Article(data[0].title, data[0].author, data[0].text);
         let articleList = new ArticleList(articleContainer);
         articleList.addArticle(article);
         articleList.render();
+        input.addEventListener('input',()=>{
+            articleList.render(input.value);
+        })
     })
 });
 
@@ -35,7 +40,13 @@ class ArticleList {
         this.render();
     }
 
-    render() {
+    render(query) {
+        if(query){
+
+                console.log(input.value)
+            this.matches(query)
+
+        }
         while (this.articleContainer.hasChildNodes()) {
             this.articleContainer.removeChild(this.articleContainer.firstChild);
         }
@@ -76,8 +87,15 @@ class Article {
     }
 
     matches(query) {
-        const pattern = /\bw+\b/
-        return pattern.test(query);
+        // const reg = new RegExp();
+
+
+        const authorMatch = this.author.match(/`{query}`/);
+        const textMatch = this.text.match(/`{query}`/);
+        const titleMatch = this.title.match(/`{query}`/);
+
+        console.log(reg);
+
     }
 }
 
