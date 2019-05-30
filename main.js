@@ -1,25 +1,22 @@
 'use strict';
-const articleContainer=document.getElementById('article-list');
+const articleContainer = document.getElementById('article-list');
 
-let data;
-const xhr = new XMLHttpRequest();
-xhr.open("GET", 'http://my-json-server.typicode.com/mate-academy/literary-blog/articles', true);
-xhr.send();
-xhr.addEventListener('load',function () {
-    data =JSON.parse(xhr.response) ;
-
-    console.log(data[0].title)
-})
 document.addEventListener('DOMContentLoaded', () => {
-
-    const article = new Article('dcssdc', 'sdvfsd', 'sadcf');
-    let articleList = new ArticleList(articleContainer);
-    articleList.addArticle(article);
-    articleList.render();
+    let data;
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", 'http://my-json-server.typicode.com/mate-academy/literary-blog/articles', true);
+    xhr.send();
+    xhr.addEventListener('load', function () {
+        data = JSON.parse(xhr.response);
+        const article = new Article(data[0].title, data[0].author, data[0].text);
+        let articleList = new ArticleList(articleContainer);
+        articleList.addArticle(article);
+        articleList.render();
+    })
 });
 
 class Article {
-    constructor(title, author, text){
+    constructor(title, author, text) {
         this.title = title;
         this.author = author;
         this.text = text;
@@ -30,48 +27,46 @@ class Article {
         };
         return obj;
     }
-    matches(query){
+
+    matches(query) {
         const pattern = /\bw+\b/
         return pattern.test(query);
     }
-
-
 }
 
 class ArticleList {
-    constructor(articleContainer){
+    constructor(articleContainer) {
         this.articleContainer = articleContainer;
-        this.articlels=[];
+        this.articlels = [];
     }
 
-    addArticle(article){
+    addArticle(article) {
         this.articlels.push(article);
     }
 
-    removeArticle(article){
+    removeArticle(article) {
 
     }
 
-    render(){
+    render() {
         while (this.articleContainer.hasChildNodes()) {
             this.articleContainer.removeChild(this.articleContainer.firstChild);
         }
-          this.articlels.forEach(article=>{
+        this.articlels.forEach(article => {
             const articleWrapper = document.createElement('div');
             const titleArticle = document.createElement('div');
             const authorArticle = document.createElement('div');
             const textArticle = document.createElement('div');
             titleArticle.textContent = article.title;
             authorArticle.textContent = article.author;
-            textArticle.textContent = article.text;
+            textArticle.innerHTML = article.text;
 
             articleWrapper.append(titleArticle);
             articleWrapper.append(authorArticle);
             articleWrapper.append(textArticle);
 
-              this.articleContainer.appendChild(articleWrapper)
+            this.articleContainer.appendChild(articleWrapper)
         })
-
     }
 }
 
