@@ -1,8 +1,11 @@
 'use strict';
-const articleContainer = document.getElementById('article-list');
+// import ArticleList from './article-list.js';
+// import Article from './article.js';
 
+const articleContainer = document.getElementById('article-list');
+let data;
 document.addEventListener('DOMContentLoaded', () => {
-    let data;
+
     const xhr = new XMLHttpRequest();
     xhr.open("GET", 'http://my-json-server.typicode.com/mate-academy/literary-blog/articles', true);
     xhr.send();
@@ -15,29 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 });
 
-class Article {
-    constructor(title, author, text) {
-        this.title = title;
-        this.author = author;
-        this.text = text;
-        const obj = {
-            author: `${this.author}`,
-            text: `${this.text}`,
-            title: `${this.title}`
-        };
-        return obj;
-    }
-
-    matches(query) {
-        const pattern = /\bw+\b/
-        return pattern.test(query);
-    }
-}
-
 class ArticleList {
     constructor(articleContainer) {
         this.articleContainer = articleContainer;
-        this.articlels = [];
+        this.articlels = data;
     }
 
     addArticle(article) {
@@ -45,7 +29,7 @@ class ArticleList {
     }
 
     removeArticle(article) {
-
+        this.articlels.pop()
     }
 
     render() {
@@ -69,4 +53,26 @@ class ArticleList {
         })
     }
 }
+
+class Article {
+    constructor(title, author, text) {
+        this.title = title;
+        this.author = author;
+        this.text = text;
+        const obj = {
+            author: `${this.author}`,
+            text: `${this.text}`,
+            title: `${this.title}`
+        };
+        return obj;
+    }
+
+    matches(query) {
+        const pattern = /\bw+\b/
+        return pattern.test(query);
+    }
+}
+
+
+
 
