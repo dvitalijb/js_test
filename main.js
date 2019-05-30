@@ -7,28 +7,30 @@ const input = document.getElementById('input');
 let data;
 
 document.addEventListener('DOMContentLoaded', () => {
-
     const xhr = new XMLHttpRequest();
+
     xhr.open("GET", 'http://my-json-server.typicode.com/mate-academy/literary-blog/articles', true);
     xhr.send();
     xhr.addEventListener('load', function () {
         data = JSON.parse(xhr.response);
-        console.log(data)
-
-        const article = new Article(data[0].title, data[0].author, data[0].text);
         let articleList = new ArticleList(articleContainer);
-        articleList.addArticle(article);
+
+        data.forEach(ar => {
+            const article = new Article(ar.title, ar.author, ar.text);
+            articleList.addArticle(article);
+        })
+
         articleList.render();
-        input.addEventListener('input',()=>{
+        input.addEventListener('input', () => {
             articleList.render(input.value);
         })
     })
 });
 
-class ArticleList{
+class ArticleList {
     constructor(articleContainer) {
         this.articleContainer = articleContainer;
-        this.articlels = data;
+        this.articlels = [];
     }
 
     addArticle(article) {
@@ -41,39 +43,40 @@ class ArticleList{
     }
 
     render(query) {
-        if(query){
-
-            this.articlels.forEach((article, index) => {
-                const articleWrapper = document.createElement('div');
-                const titleArticle = document.createElement('div');
-                const authorArticle = document.createElement('div');
-                const textArticle = document.createElement('div');
-                const buttonRemoveArticle = document.createElement('span');
-
-
-                console.log(article);
-
-
-                titleArticle.textContent = article.title;
-                authorArticle.textContent = article.author;
-                textArticle.innerHTML = article.text;
-                buttonRemoveArticle.textContent = `x`;
-                buttonRemoveArticle.addEventListener('click', () => {
-                    this.removeArticle(index);
-                })
-
-                articleWrapper.append(buttonRemoveArticle);
-                articleWrapper.append(titleArticle);
-                articleWrapper.append(authorArticle);
-                articleWrapper.append(textArticle);
-                this.articleContainer.appendChild(articleWrapper)
-            })
-            // console.log(this.matches(query))
-
-        }
         while (this.articleContainer.hasChildNodes()) {
             this.articleContainer.removeChild(this.articleContainer.firstChild);
         }
+
+        if (query) {
+            const trimQuery = query.trim();
+            this.articlels.forEach((article, index) => {
+                if (article.matches(trimQuery)) {
+
+                    const articleWrapper = document.createElement('div');
+                    const titleArticle = document.createElement('div');
+                    const authorArticle = document.createElement('div');
+                    const textArticle = document.createElement('div');
+                    const buttonRemoveArticle = document.createElement('span');
+
+                    titleArticle.textContent = article.title;
+                    authorArticle.textContent = article.author;
+                    textArticle.innerHTML = article.text;
+                    buttonRemoveArticle.textContent = `x`;
+                    buttonRemoveArticle.addEventListener('click', () => {
+                        this.removeArticle(index);
+                    })
+
+                    articleWrapper.append(buttonRemoveArticle);
+                    articleWrapper.append(titleArticle);
+                    articleWrapper.append(authorArticle);
+                    articleWrapper.append(textArticle);
+                    this.articleContainer.appendChild(articleWrapper)
+                }
+
+            })
+            return;
+        }
+
         this.articlels.forEach((article, index) => {
             const articleWrapper = document.createElement('div');
             const titleArticle = document.createElement('div');
@@ -98,20 +101,16 @@ class ArticleList{
     }
 }
 
-class Article  {
+class Article {
     constructor(title, author, text) {
-
         this.title = title;
         this.author = author;
         this.text = text;
-
     }
 
     matches(query) {
-
-      console.log('matches')
-        return true;
-
+        let regexp = new RegExp(`${query}`, "g");
+        return regexp.test(this.title) || regexp.test(this.text);
     }
 }
 
