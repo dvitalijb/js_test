@@ -31,7 +31,8 @@ class ArticleList {
     }
 
     removeArticle(article) {
-        this.articlels.pop()
+        this.articlels.splice(article, 1);
+        this.render();
     }
 
     render() {
@@ -47,16 +48,15 @@ class ArticleList {
             titleArticle.textContent = article.title;
             authorArticle.textContent = article.author;
             textArticle.innerHTML = article.text;
-            buttonRemoveArticle.textContent =`x`;
-            buttonRemoveArticle.addEventListener('click',()=>{
-                this.articlels.splice(index,1);
-                this.render();
+            buttonRemoveArticle.textContent = `x`;
+            buttonRemoveArticle.addEventListener('click', () => {
+                this.removeArticle(index);
             })
+
             articleWrapper.append(buttonRemoveArticle);
             articleWrapper.append(titleArticle);
             articleWrapper.append(authorArticle);
             articleWrapper.append(textArticle);
-
             this.articleContainer.appendChild(articleWrapper)
         })
     }
