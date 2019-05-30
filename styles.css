@@ -1,0 +1,13 @@
+.article-list>div {
+
+    border: 1px solid green;
+}
+
+span{
+    color: red;
+    font-size: 30px;
+}
+
+span:hover {
+    cursor: pointer;
+}

@@ -4,6 +4,7 @@
 
 const articleContainer = document.getElementById('article-list');
 let data;
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const xhr = new XMLHttpRequest();
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     xhr.send();
     xhr.addEventListener('load', function () {
         data = JSON.parse(xhr.response);
+        console.log(data)
         const article = new Article(data[0].title, data[0].author, data[0].text);
         let articleList = new ArticleList(articleContainer);
         articleList.addArticle(article);
@@ -36,15 +38,21 @@ class ArticleList {
         while (this.articleContainer.hasChildNodes()) {
             this.articleContainer.removeChild(this.articleContainer.firstChild);
         }
-        this.articlels.forEach(article => {
+        this.articlels.forEach((article, index) => {
             const articleWrapper = document.createElement('div');
             const titleArticle = document.createElement('div');
             const authorArticle = document.createElement('div');
             const textArticle = document.createElement('div');
+            const buttonRemoveArticle = document.createElement('span');
             titleArticle.textContent = article.title;
             authorArticle.textContent = article.author;
             textArticle.innerHTML = article.text;
-
+            buttonRemoveArticle.textContent =`x`;
+            buttonRemoveArticle.addEventListener('click',()=>{
+                this.articlels.splice(index,1);
+                this.render();
+            })
+            articleWrapper.append(buttonRemoveArticle);
             articleWrapper.append(titleArticle);
             articleWrapper.append(authorArticle);
             articleWrapper.append(textArticle);
