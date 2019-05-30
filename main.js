@@ -51,7 +51,7 @@ class ArticleList{
                 const buttonRemoveArticle = document.createElement('span');
 
 
-                console.log(article.matches(query));
+                console.log(article);
 
 
                 titleArticle.textContent = article.title;
@@ -68,7 +68,7 @@ class ArticleList{
                 articleWrapper.append(textArticle);
                 this.articleContainer.appendChild(articleWrapper)
             })
-            // console.log(this.articlels.matches(query))
+            // console.log(this.matches(query))
 
         }
         while (this.articleContainer.hasChildNodes()) {
@@ -104,21 +104,13 @@ class Article  {
         this.title = title;
         this.author = author;
         this.text = text;
-        const obj = {
-            author: `${this.author}`,
-            text: `${this.text}`,
-            title: `${this.title}`
-        };
-        return obj;
+
     }
 
     matches(query) {
 
-
       console.log('matches')
         return true;
-
-
 
     }
 }
