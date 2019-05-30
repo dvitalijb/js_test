@@ -43,8 +43,8 @@ class ArticleList {
     render(query) {
         if(query){
 
-                console.log(input.value)
-            this.matches(query)
+          //matches(query)
+            console.log(this.articlels)
 
         }
         while (this.articleContainer.hasChildNodes()) {
@@ -87,14 +87,14 @@ class Article {
     }
 
     matches(query) {
-        // const reg = new RegExp();
+
 
 
         const authorMatch = this.author.match(/`{query}`/);
         const textMatch = this.text.match(/`{query}`/);
         const titleMatch = this.title.match(/`{query}`/);
 
-        console.log(reg);
+
 
     }
 }
